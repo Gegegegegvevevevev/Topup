@@ -1,0 +1,1315 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diamond TopUp 3D - Murah & Instant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #7c3aed;
+            --secondary: #10b981;
+            --accent: #f59e0b;
+            --dark: #0f172a;
+            --light: #f8fafc;
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1e1b4b 100%);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* 3D Background Effect */
+        .scene {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            perspective: 1000px;
+            z-index: -1;
+        }
+        
+        .cube-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            animation: rotateCube 40s infinite linear;
+        }
+        
+        .cube-face {
+            position: absolute;
+            width: 2000px;
+            height: 2000px;
+            background: radial-gradient(circle at center, rgba(124, 58, 237, 0.1) 0%, transparent 70%);
+            border: 2px solid rgba(124, 58, 237, 0.2);
+        }
+        
+        .face-front { transform: translateZ(1000px); }
+        .face-back { transform: rotateY(180deg) translateZ(1000px); }
+        .face-right { transform: rotateY(90deg) translateZ(1000px); }
+        .face-left { transform: rotateY(-90deg) translateZ(1000px); }
+        .face-top { transform: rotateX(90deg) translateZ(1000px); }
+        .face-bottom { transform: rotateX(-90deg) translateZ(1000px); }
+        
+        @keyframes rotateCube {
+            0% { transform: rotateX(0) rotateY(0); }
+            100% { transform: rotateX(360deg) rotateY(360deg); }
+        }
+        
+        /* Floating Diamonds */
+        .diamond {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: linear-gradient(45deg, #3b82f6, #8b5cf6);
+            clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+            animation: floatDiamond 8s infinite ease-in-out;
+        }
+        
+        @keyframes floatDiamond {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-100px) rotate(180deg); }
+        }
+        
+        /* Header */
+        .header {
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 15px 0;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            border-bottom: 2px solid var(--primary);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8em;
+            font-weight: 900;
+            background: linear-gradient(45deg, #f59e0b, #10b981, #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo-icon {
+            font-size: 1.5em;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+        }
+        
+        .nav-link {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 8px 15px;
+            border-radius: 8px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(124, 58, 237, 0.3), transparent);
+            transition: left 0.5s;
+        }
+        
+        .nav-link:hover::before {
+            left: 100%;
+        }
+        
+        .nav-link:hover {
+            background: rgba(124, 58, 237, 0.2);
+            transform: translateY(-2px);
+        }
+        
+        .nav-link.active {
+            background: var(--primary);
+            box-shadow: 0 4px 12px rgba(124, 58, 237, 0.4);
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 100px auto 50px;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 60px 40px;
+            background: rgba(30, 27, 75, 0.7);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            margin-bottom: 50px;
+            border: 2px solid rgba(124, 58, 237, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateX(5deg);
+        }
+        
+        .hero-title {
+            font-size: 3.5em;
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #f59e0b, #10b981, #7c3aed);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 30px rgba(124, 58, 237, 0.3);
+        }
+        
+        .hero-subtitle {
+            font-size: 1.3em;
+            color: #cbd5e1;
+            max-width: 700px;
+            margin: 0 auto 40px;
+            line-height: 1.6;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 40px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+        
+        .stat-label {
+            color: #94a3b8;
+            font-size: 0.9em;
+        }
+        
+        /* Game Categories */
+        .category-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .category-tab {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .category-tab:hover {
+            transform: translateY(-3px);
+            background: rgba(124, 58, 237, 0.2);
+            border-color: var(--primary);
+        }
+        
+        .category-tab.active {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border-color: transparent;
+            box-shadow: 0 8px 20px rgba(124, 58, 237, 0.3);
+        }
+        
+        /* Games Grid */
+        .games-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+            margin: 40px 0;
+        }
+        
+        .game-card {
+            background: rgba(30, 27, 75, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 2px solid rgba(124, 58, 237, 0.2);
+            transition: all 0.4s;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateY(0deg);
+        }
+        
+        .game-card:hover {
+            transform: perspective(1000px) rotateY(5deg) translateY(-15px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        
+        .game-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: linear-gradient(45deg, var(--accent), #f97316);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8em;
+            z-index: 2;
+        }
+        
+        .game-image {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 2px solid rgba(124, 58, 237, 0.3);
+        }
+        
+        .game-content {
+            padding: 25px;
+        }
+        
+        .game-title {
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            color: var(--light);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .game-icon {
+            font-size: 1.2em;
+        }
+        
+        .game-description {
+            color: #94a3b8;
+            font-size: 0.95em;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+        
+        /* Price Packages */
+        .packages {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .package {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .package:hover {
+            border-color: var(--primary);
+            background: rgba(124, 58, 237, 0.1);
+            transform: translateY(-3px);
+        }
+        
+        .package.selected {
+            border-color: var(--secondary);
+            background: rgba(16, 185, 129, 0.1);
+            box-shadow: 0 5px 15px rgba(16, 185, 129, 0.2);
+        }
+        
+        .package-diamond {
+            font-size: 1.5em;
+            color: var(--accent);
+            margin-bottom: 5px;
+        }
+        
+        .package-price {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: var(--light);
+        }
+        
+        .package-profit {
+            font-size: 0.8em;
+            color: var(--success);
+            margin-top: 5px;
+        }
+        
+        .buy-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .buy-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(124, 58, 237, 0.4);
+        }
+        
+        /* Payment Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1001;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .modal-content {
+            background: rgba(30, 27, 75, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            width: 90%;
+            max-width: 500px;
+            border: 2px solid var(--primary);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            transform-style: preserve-3d;
+            transform: perspective(1000px) rotateY(0deg);
+            animation: modalAppear 0.5s ease-out;
+        }
+        
+        @keyframes modalAppear {
+            from { 
+                opacity: 0;
+                transform: perspective(1000px) rotateY(-90deg) translateY(100px);
+            }
+            to { 
+                opacity: 1;
+                transform: perspective(1000px) rotateY(0deg) translateY(0);
+            }
+        }
+        
+        .modal-title {
+            text-align: center;
+            font-size: 1.8em;
+            margin-bottom: 30px;
+            color: var(--light);
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .order-summary {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid rgba(124, 58, 237, 0.3);
+        }
+        
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            font-size: 1.3em;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .payment-method {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .payment-method:hover {
+            background: rgba(124, 58, 237, 0.2);
+            transform: translateY(-3px);
+        }
+        
+        .payment-method.selected {
+            border-color: var(--primary);
+            background: rgba(124, 58, 237, 0.3);
+        }
+        
+        .payment-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+        
+        .telegram-btn {
+            width: 100%;
+            padding: 18px;
+            background: linear-gradient(45deg, #0088cc, #229ed9);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            transition: all 0.3s;
+        }
+        
+        .telegram-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 25px rgba(0, 136, 204, 0.4);
+        }
+        
+        /* Admin Profit Info */
+        .profit-info {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--success);
+            border-radius: 15px;
+            padding: 20px;
+            margin: 40px 0;
+            text-align: center;
+        }
+        
+        .profit-title {
+            font-size: 1.5em;
+            color: var(--success);
+            margin-bottom: 15px;
+        }
+        
+        .profit-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .profit-item {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+        }
+        
+        .profit-amount {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--accent);
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 40px 0;
+            margin-top: 80px;
+            border-top: 2px solid rgba(124, 58, 237, 0.3);
+            color: #94a3b8;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2.5em;
+            }
+            
+            .games-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .payment-methods {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .hero {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 3D Background -->
+    <div class="scene">
+        <div class="cube-container">
+            <div class="cube-face face-front"></div>
+            <div class="cube-face face-back"></div>
+            <div class="cube-face face-right"></div>
+            <div class="cube-face face-left"></div>
+            <div class="cube-face face-top"></div>
+            <div class="cube-face face-bottom"></div>
+        </div>
+    </div>
+    
+    <!-- Floating Diamonds -->
+    <div id="diamondsContainer"></div>
+    
+    <!-- Header -->
+    <header class="header">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-icon">💎</span>
+                DiamondTopUp 3D
+            </div>
+            <div class="nav-links">
+                <a href="#" class="nav-link active" onclick="showSection('home')">🏠 Home</a>
+                <a href="#" class="nav-link" onclick="showSection('games')">🎮 Games</a>
+                <a href="#" class="nav-link" onclick="showSection('prices')">💰 Price List</a>
+                <a href="#" class="nav-link" onclick="showSection('profit')">📈 Admin Profit</a>
+                <a href="#" class="nav-link" onclick="showSection('howto')">❓ How to Order</a>
+            </div>
+        </div>
+    </header>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Hero Section -->
+        <section id="home" class="section active">
+            <div class="hero">
+                <h1 class="hero-title">💎 TOP UP DIAMOND MURAH!</h1>
+                <p class="hero-subtitle">
+                    Top up diamond semua game dengan harga termurah! Proses instant 1-5 menit saja. 
+                    Garansi 100% aman dan legal. Dijamin lebih murah dari official store!
+                </p>
+                
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="transactionCount">5000+</div>
+                        <div class="stat-label">Transaksi Sukses</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="gameCount">50+</div>
+                        <div class="stat-label">Game Supported</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Online Support</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">1-5 min</div>
+                        <div class="stat-label">Processing Time</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Games Section -->
+        <section id="games" class="section" style="display: none;">
+            <h2 style="font-size: 2.5em; text-align: center; margin-bottom: 40px; color: var(--light);">
+                🎮 PILIH GAME FAVORITMU
+            </h2>
+            
+            <!-- Category Tabs -->
+            <div class="category-tabs">
+                <button class="category-tab active" onclick="filterGames('all')">All Games</button>
+                <button class="category-tab" onclick="filterGames('mobile')">Mobile</button>
+                <button class="category-tab" onclick="filterGames('pc')">PC</button>
+                <button class="category-tab" onclick="filterGames('popular')">Most Popular</button>
+                <button class="category-tab" onclick="filterGames('cheap')">Termurah</button>
+            </div>
+            
+            <!-- Games Grid -->
+            <div class="games-grid" id="gamesContainer">
+                <!-- Games will be loaded here -->
+            </div>
+        </section>
+        
+        <!-- Price List -->
+        <section id="prices" class="section" style="display: none;">
+            <h2 style="font-size: 2.5em; text-align: center; margin-bottom: 40px; color: var(--light);">
+                💰 LIST HARGA DIAMOND
+            </h2>
+            <p style="text-align: center; color: #94a3b8; margin-bottom: 40px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                Harga special dari kami! Jauh lebih murah dari harga resmi. Admin tetap untung besar!
+            </p>
+            
+            <div class="games-grid">
+                <!-- Price cards will be loaded dynamically -->
+            </div>
+        </section>
+        
+        <!-- Admin Profit Section -->
+        <section id="profit" class="section" style="display: none;">
+            <div class="profit-info">
+                <h2 class="profit-title">📈 SISTEM KEUNTUNGAN ADMIN</h2>
+                <p style="color: #cbd5e1; margin-bottom: 20px;">
+                    Sistem harga kami diatur agar customer dapat harga murah, tapi ADMIN TETAP UNTUNG BESAR!
+                </p>
+                
+                <div class="profit-grid">
+                    <div class="profit-item">
+                        <div class="profit-amount">40-60%</div>
+                        <div>Profit Margin</div>
+                    </div>
+                    <div class="profit-item">
+                        <div class="profit-amount">100+</div>
+                        <div>Orders per Day</div>
+                    </div>
+                    <div class="profit-item">
+                        <div class="profit-amount">Rp 5-10jt</div>
+                        <div>Monthly Profit</div>
+                    </div>
+                    <div class="profit-item">
+                        <div class="profit-amount">0%</div>
+                        <div>Risk Involved</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 30px; background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px;">
+                    <h3 style="color: var(--accent); margin-bottom: 15px;">💰 Contoh Perhitungan Profit:</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <div style="background: rgba(124,58,237,0.2); padding: 15px; border-radius: 10px;">
+                            <div style="font-weight: bold; color: var(--primary);">Mobile Legends</div>
+                            <div style="margin-top: 10px;">
+                                <div>Harga Resmi: <span style="color: #94a3b8;">Rp 150,000</span></div>
+                                <div>Harga Kita: <span style="color: var(--success);">Rp 120,000</span></div>
+                                <div>Profit Admin: <span style="color: var(--accent); font-weight: bold;">Rp 30,000</span></div>
+                            </div>
+                        </div>
+                        <div style="background: rgba(16,185,129,0.2); padding: 15px; border-radius: 10px;">
+                            <div style="font-weight: bold; color: var(--success);">Free Fire</div>
+                            <div style="margin-top: 10px;">
+                                <div>Harga Resmi: <span style="color: #94a3b8;">Rp 100,000</span></div>
+                                <div>Harga Kita: <span style="color: var(--success);">Rp 80,000</span></div>
+                                <div>Profit Admin: <span style="color: var(--accent); font-weight: bold;">Rp 20,000</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- How to Order -->
+        <section id="howto" class="section" style="display: none;">
+            <h2 style="font-size: 2.5em; text-align: center; margin-bottom: 40px; color: var(--light);">
+                ❓ CARA ORDER & PEMBAYARAN
+            </h2>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px;">
+                <div style="background: rgba(30,27,75,0.8); padding: 30px; border-radius: 15px; text-align: center;">
+                    <div style="font-size: 3em; margin-bottom: 20px;">1️⃣</div>
+                    <h3 style="margin-bottom: 15px; color: var(--primary);">Pilih Game & Diamond</h3>
+                    <p style="color: #94a3b8;">Pilih game favoritmu dan jumlah diamond yang diinginkan</p>
+                </div>
+                
+                <div style="background: rgba(30,27,75,0.8); padding: 30px; border-radius: 15px; text-align: center;">
+                    <div style="font-size: 3em; margin-bottom: 20px;">2️⃣</div>
+                    <h3 style="margin-bottom: 15px; color: var(--primary);">Kirim Data Account</h3>
+                    <p style="color: #94a3b8;">Kirim ID/Username game dan server melalui WhatsApp/Telegram</p>
+                </div>
+                
+                <div style="background: rgba(30,27,75,0.8); padding: 30px; border-radius: 15px; text-align: center;">
+                    <div style="font-size: 3em; margin-bottom: 20px;">3️⃣</div>
+                    <h3 style="margin-bottom: 15px; color: var(--primary);">Transfer Pembayaran</h3>
+                    <p style="color: #94a3b8;">Transfer ke rekening admin (BCA, BRI, DANA, OVO, GoPay)</p>
+                </div>
+                
+                <div style="background: rgba(30,27,75,0.8); padding: 30px; border-radius: 15px; text-align: center;">
+                    <div style="font-size: 3em; margin-bottom: 20px;">4️⃣</div>
+                    <h3 style="margin-bottom: 15px; color: var(--primary);">Diamond Masuk!</h3>
+                    <p style="color: #94a3b8;">Diamond akan masuk dalam 1-5 menit setelah pembayaran</p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 50px;">
+                <button class="telegram-btn" onclick="openTelegram()" style="max-width: 400px; margin: 0 auto;">
+                    📱 ORDER VIA TELEGRAM
+                </button>
+                <p style="color: #94a3b8; margin-top: 20px;">
+                    Admin Telegram: <strong style="color: var(--accent);">@DiamondTopUpAdmin</strong>
+                </p>
+            </div>
+        </section>
+    </div>
+    
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
+        <div class="modal-content">
+            <h2 class="modal-title">💎 KONFIRMASI ORDER</h2>
+            
+            <div class="order-summary">
+                <div class="order-item">
+                    <span>Game:</span>
+                    <span id="modalGameName">-</span>
+                </div>
+                <div class="order-item">
+                    <span>Package:</span>
+                    <span id="modalPackageName">-</span>
+                </div>
+                <div class="order-item">
+                    <span>Jumlah Diamond:</span>
+                    <span id="modalDiamondAmount">-</span>
+                </div>
+                <div class="order-item">
+                    <span>Harga Normal:</span>
+                    <span id="modalOriginalPrice" style="text-decoration: line-through; color: #94a3b8;">-</span>
+                </div>
+                <div class="order-total">
+                    <span>Harga Kita:</span>
+                    <span id="modalOurPrice" style="color: var(--success); font-size: 1.4em;">-</span>
+                </div>
+                <div class="order-item">
+                    <span>Profit Admin:</span>
+                    <span id="modalProfit" style="color: var(--accent);">-</span>
+                </div>
+            </div>
+            
+            <div style="margin: 20px 0;">
+                <label style="display: block; margin-bottom: 10px; color: #cbd5e1;">ID Game / Username:</label>
+                <input type="text" id="gameId" placeholder="Masukkan ID/Username game" style="width:100%;padding:15px;border-radius:10px;background:rgba(0,0,0,0.3);color:white;border:2px solid rgba(124,58,237,0.3)">
+            </div>
+            
+            <div style="margin: 20px 0;">
+                <label style="display: block; margin-bottom: 10px; color: #cbd5e1;">Server:</label>
+                <input type="text" id="gameServer" placeholder="Contoh: 12345 / Asia / Global" style="width:100%;padding:15px;border-radius:10px;background:rgba(0,0,0,0.3);color:white;border:2px solid rgba(124,58,237,0.3)">
+            </div>
+            
+            <div style="margin: 20px 0;">
+                <label style="display: block; margin-bottom: 10px; color: #cbd5e1;">Pilih Metode Pembayaran:</label>
+                <div class="payment-methods">
+                    <div class="payment-method" onclick="selectPayment('dana')">
+                        <div class="payment-icon">💜</div>
+                        <div>DANA</div>
+                    </div>
+                    <div class="payment-method" onclick="selectPayment('gopay')">
+                        <div class="payment-icon">💰</div>
+                        <div>GoPay</div>
+                    </div>
+                    <div class="payment-method selected" onclick="selectPayment('ovo')">
+                        <div class="payment-icon">💚</div>
+                        <div>OVO</div>
+                    </div>
+                    <div class="payment-method" onclick="selectPayment('bca')">
+                        <div class="payment-icon">🏦</div>
+                        <div>BCA</div>
+                    </div>
+                    <div class="payment-method" onclick="selectPayment('bri')">
+                        <div class="payment-icon">🏦</div>
+                        <div>BRI</div>
+                    </div>
+                    <div class="payment-method" onclick="selectPayment('mandiri')">
+                        <div class="payment-icon">🏦</div>
+                        <div>Mandiri</div>
+                    </div>
+                </div>
+            </div>
+            
+            <button class="telegram-btn" onclick="sendToTelegram()">
+                📱 KIRIM KE TELEGRAM
+            </button>
+            
+            <button class="buy-btn" onclick="closeModal()" style="background: rgba(255,255,255,0.1); margin-top: 15px;">
+                ✖️ BATAL
+            </button>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer class="footer">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
+            <div class="logo" style="justify-content: center; margin-bottom: 20px;">
+                💎 DiamondTopUp 3D
+            </div>
+            <p style="margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">
+                Top up diamond semua game dengan harga termurah di Indonesia! Proses cepat dan aman.
+            </p>
+            <div style="display: flex; justify-content: center; gap: 20px; margin-bottom: 30px; flex-wrap: wrap;">
+                <a href="#" style="color: #94a3b8; text-decoration: none;">📞 +62 812-3456-7890</a>
+                <a href="#" style="color: #94a3b8; text-decoration: none;">📧 admin@diamondtopup.com</a>
+                <a href="#" style="color: #94a3b8; text-decoration: none;">📱 @DiamondTopUpAdmin</a>
+            </div>
+            <div style="color: #64748b; font-size: 0.9em;">
+                © 2024 DiamondTopUp 3D. All rights reserved.<br>
+                Harga dapat berubah sewaktu-waktu. Semua transaksi aman dan terjamin.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Initialize data
+        let games = [];
+        let selectedGame = null;
+        let selectedPackage = null;
+        let selectedPayment = 'ovo';
+        let diamondsCount = 20;
+        
+        // Sample games data with images
+        const gameData = [
+            {
+                id: 1,
+                name: "Mobile Legends",
+                category: ["mobile", "popular"],
+                icon: "⚔️",
+                image: "https://files.catbox.moe/i04fnc.jpg",
+                description: "Top up diamond MLBB termurah! Proses 1-3 menit.",
+                packages: [
+                    { diamonds: "5 💎", price: 5000, original: 8000, profit: 3000 },
+                    { diamonds: "12 💎", price: 10000, original: 15000, profit: 5000 },
+                    { diamonds: "28 💎", price: 20000, original: 28000, profit: 8000 },
+                    { diamonds: "50 💎", price: 35000, original: 50000, profit: 15000 },
+                    { diamonds: "100 💎", price: 65000, original: 95000, profit: 30000 }
+                ]
+            },
+            {
+                id: 2,
+                name: "Free Fire",
+                category: ["mobile", "popular", "cheap"],
+                icon: "🔫",
+                image: "https://files.catbox.moe/i04fnc.jpg",
+                description: "Top up diamond FF harga spesial! Garansi aman.",
+                packages: [
+                    { diamonds: "50 💎", price: 8000, original: 12000, profit: 4000 },
+                    { diamonds: "100 💎", price: 15000, original: 22000, profit: 7000 },
+                    { diamonds: "210 💎", price: 28000, original: 40000, profit: 12000 },
+                    { diamonds: "425 💎", price: 55000, original: 80000, profit: 25000 },
+                    { diamonds: "1000 💎", price: 120000, original: 180000, profit: 60000 }
+                ]
+            },
+            {
+                id: 3,
+                name: "PUBG Mobile",
+                category: ["mobile", "popular"],
+                icon: "🎯",
+                image: "https://files.catbox.moe/i04fnc.jpg",
+                description: "UC PUBG Mobile harga diskon! Instant delivery.",
+                packages: [
+                    { diamonds: "60 UC", price: 12000, original: 18000, profit: 6000 },
+                    { diamonds: "325 UC", price: 60000, original: 90000, profit: 30000 },
+                    { diamonds: "660 UC", price: 120000, original: 180000, profit: 60000 },
+                    { diamonds: "1800 UC", price: 300000, original: 450000, profit: 150000 }
+                ]
+            },
+            {
+                id: 4,
+                name: "Valorant",
+                category: ["pc", "popular"],
+                icon: "🎮",
+                image: "https://files.catbox.moe/i04fnc.jpg",
+                description: "VP Valorant PC/PC murah! Support all regions.",
+                packages: [
+                    { diamonds: "125 VP", price: 15000, original: 22000, profit: 7000 },
+                    { diamonds: "420 VP", price: 45000, original: 65000, profit: 20000 },
+                    { diamonds: "700 VP", price: 75000, original: 110000, profit: 35000 },
+                    { diamonds: "1375 VP", price: 140000, original: 210000, profit: 70000 }
+                ]
+            },
+            {
+                id: 5,
+                name: "Genshin Impact",
+                category: ["pc", "mobile"],
+                icon: "🌌",
+                image: "https://files.catbox.moe/i04fnc.jpg",
+                description: "Genesis Crystal GI murah! All server support.",
+                packages: [
+                    { diamonds: "60 GC", price: 15000, original: 22000, profit: 7000 },
+                    { diamonds: "300 GC", price: 70000, original: 105000, profit: 35000 },
+                    { diamonds: "980 GC", price: 210000, original: 315000, profit: 105000 },
+                    { diamonds: "1980 GC", price: 410000, original: 615000, profit: 205000 }
+                ]
+            },
+            {
+                id: 6,
+                name: "Call of Duty Mobile",
+                category: ["mobile"],
+                icon: "🎖️",
+                image: "https://files.catbox.moe/i04fnc.jpg",
+                description: "CP COD Mobile diskon besar! Fast process.",
+                packages: [
+                    { diamonds: "80 CP", price: 12000, original: 18000, profit: 6000 },
+                    { diamonds: "400 CP", price: 55000, original: 82000, profit: 27000 },
+                    { diamonds: "800 CP", price: 105000, original: 157000, profit: 52000 },
+                    { diamonds: "2000 CP", price: 250000, original: 375000, profit: 125000 }
+                ]
+            },
+            {
+                id: 7,
+                name: "Apex Legends",
+                category: ["pc"],
+                icon: "🚀",
+                image: "https://files.catbox.moe/i04fnc.jpg",
+                description: "Apex Coins PC/Console murah! All platform.",
+                packages: [
+                    { diamonds: "500 AC", price: 65000, original: 95000, profit: 30000 },
+                    { diamonds: "1000 AC", price: 120000, original: 180000, profit: 60000 },
+                    { diamonds: "2000 AC", price: 230000, original: 345000, profit: 115000 },
+                    { diamonds: "4000 AC", price: 450000, original: 675000, profit: 225000 }
+                ]
+            },
+            {
+                id: 8,
+                name: "Roblox",
+                category: ["pc", "mobile", "cheap"],
+                icon: "🧱",
+                image: "https://files.catbox.moe/i04fnc.jpg",
+                description: "Robux termurah! Instant delivery semua server.",
+                packages: [
+                    { diamonds: "80 Robux", price: 10000, original: 15000, profit: 5000 },
+                    { diamonds: "400 Robux", price: 45000, original: 67000, profit: 22000 },
+                    { diamonds: "800 Robux", price: 85000, original: 127000, profit: 42000 },
+                    { diamonds: "2000 Robux", price: 200000, original: 300000, profit: 100000 }
+                ]
+            }
+        ];
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Create floating diamonds
+            createFloatingDiamonds();
+            
+            // Load games
+            games = [...gameData];
+            renderGames();
+            
+            // Update transaction count animation
+            animateCounter('transactionCount', 5000, 5500, 100);
+            animateCounter('gameCount', 50, 58, 50);
+        });
+        
+        // Create floating diamonds
+        function createFloatingDiamonds() {
+            const container = document.getElementById('diamondsContainer');
+            for (let i = 0; i < 20; i++) {
+                const diamond = document.createElement('div');
+                diamond.className = 'diamond';
+                
+                // Random properties
+                const size = Math.random() * 20 + 10;
+                const left = Math.random() * 100;
+                const delay = Math.random() * 8;
+                const duration = Math.random() * 10 + 8;
+                
+                diamond.style.width = `${size}px`;
+                diamond.style.height = `${size}px`;
+                diamond.style.left = `${left}vw`;
+                diamond.style.top = `${Math.random() * 100}vh`;
+                diamond.style.animationDelay = `${delay}s`;
+                diamond.style.animationDuration = `${duration}s`;
+                diamond.style.opacity = Math.random() * 0.5 + 0.3;
+                
+                container.appendChild(diamond);
+            }
+        }
+        
+        // Animate counter
+        function animateCounter(elementId, start, end, duration) {
+            const element = document.getElementById(elementId);
+            if (!element) return;
+            
+            let startTime = null;
+            
+            function updateCounter(timestamp) {
+                if (!startTime) startTime = timestamp;
+                const progress = timestamp - startTime;
+                const percentage = Math.min(progress / duration, 1);
+                
+                const current = Math.floor(start + (end - start) * percentage);
+                element.textContent = current.toLocaleString('id-ID') + '+';
+                
+                if (percentage < 1) {
+                    requestAnimationFrame(updateCounter);
+                }
+            }
+            
+            requestAnimationFrame(updateCounter);
+        }
+        
+        // Render games
+        function renderGames(filter = 'all') {
+            const container = document.getElementById('gamesContainer');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            let filteredGames = games;
+            
+            if (filter !== 'all') {
+                filteredGames = games.filter(game => {
+                    if (filter === 'cheap') {
+                        return game.packages[0].price <= 20000;
+                    }
+                    return game.category.includes(filter);
+                });
+            }
+            
+            filteredGames.forEach(game => {
+                const gameCard = document.createElement('div');
+                gameCard.className = 'game-card';
+                
+                // Get cheapest package
+                const cheapestPackage = game.packages.reduce((min, p) => 
+                    p.price < min.price ? p : min, game.packages[0]);
+                
+                gameCard.innerHTML = `
+                    <div class="game-badge">MURAH</div>
+                    <img src="${game.image}" alt="${game.name}" class="game-image">
+                    <div class="game-content">
+                        <h3 class="game-title">
+                            <span class="game-icon">${game.icon}</span>
+                            ${game.name}
+                        </h3>
+                        <p class="game-description">${game.description}</p>
+                        
+                        <div style="color: var(--accent); font-size: 1.2em; margin: 15px 0;">
+                            Mulai dari: <strong>Rp ${cheapestPackage.price.toLocaleString('id-ID')}</strong>
+                        </div>
+                        
+                        <div class="packages">
+                            ${game.packages.slice(0, 3).map(pkg => `
+                                <div class="package" onclick="selectGamePackage(${game.id}, ${game.packages.indexOf(pkg)})">
+                                    <div class="package-diamond">${pkg.diamonds}</div>
+                                    <div class="package-price">Rp ${pkg.price.toLocaleString('id-ID')}</div>
+                                    <div class="package-profit">Untung: Rp ${pkg.profit.toLocaleString('id-ID')}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                        
+                        <button class="buy-btn" onclick="openPaymentModal(${game.id})">
+                            💎 BELI SEKARANG
+                        </button>
+                    </div>
+                `;
+                
+                container.appendChild(gameCard);
+            });
+        }
+        
+        // Filter games
+        function filterGames(category) {
+            // Update active tab
+            document.querySelectorAll('.category-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // Render filtered games
+            renderGames(category);
+        }
+        
+        // Show section
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.style.display = 'none';
+            });
+            
+            // Show selected section
+            document.getElementById(sectionId).style.display = 'block';
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const navIndex = {
+                'home': 0,
+                'games': 1,
+                'prices': 2,
+                'profit': 3,
+                'howto': 4
+            };
+            
+            document.querySelectorAll('.nav-link')[navIndex[sectionId]].classList.add('active');
+            
+            // If showing games section, render games
+            if (sectionId === 'games' || sectionId === 'prices') {
+                renderGames('all');
+            }
+        }
+        
+        // Select game package
+        function selectGamePackage(gameId, packageIndex) {
+            const game = games.find(g => g.id === gameId);
+            if (!game) return;
+            
+            const pkg = game.packages[packageIndex];
+            
+            // Remove selected class from all packages
+            document.querySelectorAll('.package').forEach(p => {
+                p.classList.remove('selected');
+            });
+            
+            // Add selected class to clicked package
+            event.target.closest('.package').classList.add('selected');
+            
+            // Store selection
+            selectedGame = game;
+            selectedPackage = pkg;
+        }
+        
+        // Open payment modal
+        function openPaymentModal(gameId) {
+            const game = games.find(g => g.id === gameId);
+            if (!game) return;
+            
+            // Use first package if none selected
+            selectedGame = game;
+            selectedPackage = selectedPackage || game.packages[0];
+            
+            // Update modal content
+            document.getElementById('modalGameName').textContent = game.name;
+            document.getElementById('modalPackageName').textContent = selectedPackage.diamonds;
+            document.getElementById('modalDiamondAmount').textContent = selectedPackage.diamonds;
+            document.getElementById('modalOriginalPrice').textContent = `Rp ${selectedPackage.original.toLocaleString('id-ID')}`;
+            document.getElementById('modalOurPrice').textContent = `Rp ${selectedPackage.price.toLocaleString('id-ID')}`;
+            document.getElementById('modalProfit').textContent = `Rp ${selectedPackage.profit.toLocaleString('id-ID')}`;
+            
+            // Show modal
+            document.getElementById('paymentModal').style.display = 'flex';
+        }
+        
+        // Select payment method
+        function selectPayment(method) {
+            selectedPayment = method;
+            
+            // Update UI
+            document.querySelectorAll('.payment-method').forEach(m => {
+                m.classList.remove('selected');
+            });
+            event.target.closest('.payment-method').classList.add('selected');
+        }
+        
+        // Send to Telegram
+        function sendToTelegram() {
+            const gameId = document.getElementById('gameId').value;
+            const gameServer = document.getElementById('gameServer').value;
+            
+            if (!gameId || !gameServer) {
+                alert('❌ Harap isi ID Game dan Server terlebih dahulu!');
+                return;
+            }
+            
+            if (!selectedGame || !selectedPackage) {
+                alert('❌ Harap pilih package terlebih dahulu!');
+                return;
+            }
+            
+            // Create message
+            const message = `📱 *ORDER DIAMOND TOPUP* 📱
+
+🎮 *Game:* ${selectedGame.name}
+💎 *Package:* ${selectedPackage.diamonds}
+💰 *Harga:* Rp ${selectedPackage.price.toLocaleString('id-ID')}
+📊 *Profit Admin:* Rp ${selectedPackage.profit.toLocaleString('id-ID')}
+
+👤 *ID Game:* ${gameId}
+🌐 *Server:* ${gameServer}
+💳 *Payment Method:* ${selectedPayment.toUpperCase()}
+
+📞 *Contact:* +6281234567890
+⏰ *Process:* 1-5 menit
+
+✅ *Silakan konfirmasi pesanan ini dan lakukan pembayaran*`;
+            
+            // Encode for Telegram
+            const encodedMessage = encodeURIComponent(message);
+            const telegramUrl = `https://t.me/share/url?url=${encodedMessage}`;
+            
+            // Open Telegram
+            window.open(telegramUrl, '_blank');
+            
+            // Close modal
+            closeModal();
+            
+            // Show success message
+            alert(`✅ Order berhasil dikirim ke Telegram!\n\nAdmin akan segera menghubungi Anda untuk konfirmasi pembayaran.`);
+        }
+        
+        // Open Telegram
+        function openTelegram() {
+            window.open('https://t.me/DiamondTopUpAdmin', '_blank');
+        }
+        
+        // Close modal
+        function closeModal() {
+            document.getElementById('paymentModal').style.display = 'none';
+        }
+        
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('paymentModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        };
+    </script>
+</body>
+</html>
